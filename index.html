@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iOS Store - iOS Simulation Apps</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #0A84FF;
+            --secondary-color: #5E5CE6;
+            --background-color: #1C1C1E;
+            --card-color: #2C2C2E;
+            --text-color: #F2F2F7;
+            --accent-color: #30D158;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            --transition: all 0.3s ease;
+        }
+
+        .light-mode {
+            --primary-color: #007AFF;
+            --secondary-color: #5856D6;
+            --background-color: #F2F2F7;
+            --card-color: #FFFFFF;
+            --text-color: #1D1D1F;
+            --accent-color: #34C759;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            transition: var(--transition);
+            line-height: 1.6;
+            padding: 15px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: var(--card-color);
+            box-shadow: var(--shadow);
+            border-radius: 16px;
+            position: sticky;
+            top: 15px;
+            z-index: 100;
+            margin-bottom: 25px;
+            backdrop-filter: blur(10px);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .logo-text {
+            font-size: 22px;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 12px;
+        }
+
+        .social-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--card-color);
+            color: var(--text-color);
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        .social-icon:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+        }
+
+        .whatsapp { color: #25D366; }
+        .instagram { color: #E4405F; }
+        .telegram { color: #0088CC; }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            color: var(--text-color);
+            font-size: 20px;
+            cursor: pointer;
+            transition: var(--transition);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .theme-toggle:hover {
+            transform: rotate(30deg);
+            background-color: rgba(255,255,255,0.1);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 25px 0;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .hero h1 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 700;
+        }
+
+        .hero p {
+            font-size: 1rem;
+            color: var(--text-color);
+            opacity: 0.8;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        /* Apps Section */
+        .apps-container {
+            background-color: var(--card-color);
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+
+        .apps-title {
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+            text-align: center;
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .apps-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .app-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background-color: var(--background-color);
+            border-radius: 14px;
+            transition: var(--transition);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .app-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .app-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex: 1;
+        }
+
+        .app-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            flex-shrink: 0;
+            position: relative;
+        }
+
+        .ioslancher-icon { background: linear-gradient(135deg, #007AFF, #5E5CE6); }
+        .iconspack-icon { background: linear-gradient(135deg, #FF9F0A, #FF6B35); }
+        .iphone-icon { background: linear-gradient(135deg, #30D158, #32D74B); }
+        .statusbar-icon { background: linear-gradient(135deg, #FF453A, #FF375F); }
+        .messages-icon { background: linear-gradient(135deg, #32D74B, #64D2FF); }
+        .settings-icon { background: linear-gradient(135deg, #8E8E93, #AEAEB2); }
+        .pcphone-icon { background: linear-gradient(135deg, #0078D4, #6B69D6); }
+        .game-icon { background: linear-gradient(135deg, #BF5AF2, #FF2D55); }
+
+        .app-details h3 {
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        .app-details p {
+            font-size: 0.85rem;
+            opacity: 0.7;
+            line-height: 1.4;
+        }
+
+        .download-link {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            padding: 8px 16px;
+            border-radius: 8px;
+            transition: var(--transition);
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .download-link:hover {
+            background-color: rgba(10, 132, 255, 0.1);
+            transform: translateY(-1px);
+        }
+
+        /* Combined App Section */
+        .combined-app {
+            background-color: var(--background-color);
+            border-radius: 14px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .combined-title {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            text-align: center;
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .combined-apps {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .combined-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            background-color: var(--card-color);
+            border-radius: 10px;
+            transition: var(--transition);
+        }
+
+        .combined-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .combined-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex: 1;
+        }
+
+        .combined-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .combined-details h4 {
+            font-size: 1rem;
+            margin-bottom: 4px;
+            font-weight: 600;
+        }
+
+        .combined-details p {
+            font-size: 0.75rem;
+            opacity: 0.7;
+            line-height: 1.3;
+        }
+
+        /* Game Section */
+        .game-section {
+            background-color: var(--card-color);
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            padding: 25px;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .game-title {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .game-content {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .game-icon-large {
+            width: 80px;
+            height: 80px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 32px;
+            background: linear-gradient(135deg, #BF5AF2, #FF2D55);
+        }
+
+        .game-info {
+            flex: 1;
+            max-width: 400px;
+            text-align: left;
+        }
+
+        .game-info h3 {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            color: var(--text-color);
+        }
+
+        .game-info p {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .game-link {
+            display: inline-block;
+            background: linear-gradient(135deg, #BF5AF2, #FF2D55);
+            color: white;
+            text-decoration: none;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .game-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(191, 90, 242, 0.4);
+        }
+
+        /* About Section */
+        .about-section {
+            padding: 25px 20px;
+            text-align: center;
+            background-color: var(--card-color);
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            margin-bottom: 20px;
+        }
+
+        .about-section h2 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 600;
+        }
+
+        .about-section p {
+            margin-bottom: 12px;
+            color: var(--text-color);
+            opacity: 0.8;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .developer {
+            margin-top: 15px;
+            font-weight: 600;
+            color: var(--primary-color);
+            font-size: 0.95rem;
+        }
+
+        /* Footer */
+        footer {
+            padding: 20px 0;
+            text-align: center;
+            color: var(--text-color);
+            opacity: 0.7;
+            font-size: 0.85rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            body {
+                padding: 12px;
+            }
+            
+            .header-content {
+                flex-direction: row;
+                gap: 10px;
+                padding: 12px 15px;
+            }
+
+            .logo-text {
+                font-size: 20px;
+            }
+
+            .social-icons {
+                gap: 8px;
+            }
+
+            .social-icon {
+                width: 36px;
+                height: 36px;
+                font-size: 15px;
+            }
+
+            .hero h1 {
+                font-size: 1.6rem;
+            }
+
+            .hero p {
+                font-size: 0.95rem;
+                padding: 0 10px;
+            }
+
+            .apps-container, .game-section {
+                padding: 18px;
+            }
+
+            .app-item {
+                flex-direction: row;
+                align-items: center;
+                padding: 12px;
+            }
+
+            .app-info {
+                gap: 12px;
+            }
+
+            .app-icon {
+                width: 44px;
+                height: 44px;
+                font-size: 16px;
+            }
+
+            .app-details h3 {
+                font-size: 1rem;
+            }
+
+            .app-details p {
+                font-size: 0.8rem;
+            }
+
+            .download-link {
+                font-size: 0.9rem;
+                padding: 6px 12px;
+            }
+
+            .combined-apps {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+
+            .game-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .game-info {
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header-content {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 15px;
+            }
+            
+            .logo {
+                order: 1;
+            }
+            
+            .social-icons {
+                order: 2;
+            }
+            
+            .theme-toggle {
+                order: 3;
+                position: absolute;
+                top: 15px;
+                right: 15px;
+            }
+
+            .app-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
+            }
+
+            .app-info {
+                width: 100%;
+            }
+
+            .download-link {
+                align-self: flex-end;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-content">
+                <div class="logo">
+                    <div class="logo-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <div class="logo-text">iOS Store</div>
+                </div>
+                
+                <div class="social-icons">
+                    <a href="https://wa.me/201019569018" class="social-icon whatsapp" target="_blank">
+                        <i class="fab fa-whatsapp"></i>
+                    </a>
+                    <a href="https://instagram.com/mhamedashrf.0" class="social-icon instagram" target="_blank">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="https://t.me/h_moh_za" class="social-icon telegram" target="_blank">
+                        <i class="fab fa-telegram"></i>
+                    </a>
+                </div>
+                
+                <button class="theme-toggle" id="themeToggle">
+                    <i class="fas fa-sun"></i>
+                </button>
+            </div>
+        </header>
+
+        <section class="hero">
+            <h1>Welcome to iOS Store</h1>
+            <p>Discover iOS simulation apps that transform your device into a complete iPhone experience. All apps are free and regularly updated.</p>
+        </section>
+
+        <section class="apps-container">
+            <h2 class="apps-title">Available iOS Apps</h2>
+            <div class="apps-list">
+                <!-- Combined iOS Launcher & App Icons Pack -->
+                <div class="combined-app">
+                    <h3 class="combined-title">iOS Customization Pack</h3>
+                    <div class="combined-apps">
+                        <div class="combined-item">
+                            <div class="combined-info">
+                                <div class="combined-icon ioslancher-icon">
+                                    <i class="fas fa-home"></i>
+                                </div>
+                                <div class="combined-details">
+                                    <h4>iOS Launcher</h4>
+                                    <p>Complete iOS interface transformation</p>
+                                </div>
+                            </div>
+                            <a href="https://m7ashr213-cell.github.io/iOS-Store-iOS-Launcher-/" class="download-link">Get Now</a>
+                        </div>
+
+                        <div class="combined-item">
+                            <div class="combined-info">
+                                <div class="combined-icon iconspack-icon">
+                                    <i class="fas fa-images"></i>
+                                </div>
+                                <div class="combined-details">
+                                    <h4>App Icons Pack</h4>
+                                    <p>iOS-style icons collection</p>
+                                </div>
+                            </div>
+                            <a href="https://mega.nz/file/W9IzjbQC#3jQUMy8WeUM0-EVDyJHF_mzj6Q9LlAA7E7oYQ4KnlhY" class="download-link">Get Now</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- App 3 - iPhone -->
+                <div class="app-item">
+                    <div class="app-info">
+                        <div class="app-icon iphone-icon">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <div class="app-details">
+                            <h3>iPhone</h3>
+                            <p>Phone dialer app that looks exactly like the iPhone phone app with distinctive ringtones</p>
+                        </div>
+                    </div>
+                    <a href="https://m7ashr213-cell.github.io/iOS-Store-iPhone/" class="download-link">Get Now</a>
+                </div>
+
+                <!-- App 4 - iOS Status Bar -->
+                <div class="app-item">
+                    <div class="app-info">
+                        <div class="app-icon statusbar-icon">
+                            <i class="fas fa-signal"></i>
+                        </div>
+                        <div class="app-details">
+                            <h3>iOS Status Bar</h3>
+                            <p>Transform your phone's top bar to look exactly like iPhone status bar with time and network</p>
+                        </div>
+                    </div>
+                    <a href="https://m7ashr213-cell.github.io/iOS-Store-iOS-Stute-Bar/" class="download-link">Get Now</a>
+                </div>
+
+                <!-- App 5 - Messages -->
+                <div class="app-item">
+                    <div class="app-info">
+                        <div class="app-icon messages-icon">
+                            <i class="fas fa-comment"></i>
+                        </div>
+                        <div class="app-details">
+                            <h3>Messages</h3>
+                            <p>Transform your messaging app to look exactly like the iOS messages app</p>
+                        </div>
+                    </div>
+                    <a href="https://m7ashr213-cell.github.io/iOS-Store-messages/" class="download-link">Get Now</a>
+                </div>
+
+                <!-- App 6 - Settings -->
+                <div class="app-item">
+                    <div class="app-info">
+                        <div class="app-icon settings-icon">
+                            <i class="fas fa-cog"></i>
+                        </div>
+                        <div class="app-details">
+                            <h3>Settings</h3>
+                            <p>Transform your device settings to look exactly like iPhone settings with the same interface and options</p>
+                        </div>
+                    </div>
+                    <a href="https://m7ashr213-cell.github.io/iOS-Store-iOS-Settings/" class="download-link">Get Now</a>
+                </div>
+
+                <!-- App 7 - This PC Phone -->
+                <div class="app-item">
+                    <div class="app-info">
+                        <div class="app-icon pcphone-icon">
+                            <i class="fas fa-laptop"></i>
+                        </div>
+                        <div class="app-details">
+                            <h3>This PC Phone</h3>
+                            <p>Transform your phone or tablet into a Windows 11 laptop computer</p>
+                        </div>
+                    </div>
+                    <a href="https://m7ashr213-cell.github.io/iOS-Store-This-PC/" class="download-link">Get Now</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="about-section">
+            <h2>About iOS Store</h2>
+            <p>
+                iOS Store is your premier destination for getting the best iOS simulation applications. 
+                We offer a variety of free apps that transform your device interface to look and feel like iPhone.
+            </p>
+            <p>
+                We continuously work on updating applications to ensure compatibility with the latest system versions and provide the best user experience.
+            </p>
+            <p class="developer">Developer: Mohamed Ashraf</p>
+        </section>
+
+        <!-- Game Section -->
+        <section class="game-section">
+            <h2 class="game-title">iOS Store Game</h2>
+            <div class="game-content">
+                <div class="game-icon-large">
+                    <i class="fas fa-gamepad"></i>
+                </div>
+                <div class="game-info">
+                    <h3>iOS Store Adventure</h3>
+                    <p>Embark on an exciting adventure through the iOS Store universe! Collect apps, avoid bugs, and become the ultimate iOS master in this fun and challenging game.</p>
+                    <a href="https://m7ashr213-cell.github.io/iOS-Store-Game/" class="game-link">Play Now</a>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <p>© 2025 iOS Store. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Theme Toggle
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
+        
+        themeToggle.addEventListener('click', () => {
+            body.classList.toggle('light-mode');
+            
+            if (body.classList.contains('light-mode')) {
+                themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+            } else {
+                themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+            }
+        });
+    </script>
+</body>
+</html>
